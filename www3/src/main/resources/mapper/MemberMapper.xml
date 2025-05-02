@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="www.silver.dao.IF_MemberDAO">
+	<insert id="insertone" parameterType="www.silver.VO.MemberVO">
+		insert into kuser values(#{id}, #{pass},#{pass}, #{addr}, #{tel})
+	</insert>
+	<delete id="delete">
+		delete from 테이블명
+	</delete>
+	<select id="selectall" resultType="www.silver.VO.MemberVO">
+		select * from 테이블명 where order by no
+	</select>
+	
+	<select id="joinNum" resultType="int">
+		select  Max(num) from write
+	
+	</select>
+	
+	
+	<insert id="insertwrite" >
+		insert into write values(writenum_seq.nextval, #{secret},#{title}, #{writer}, #{content}, #{createDate}, #{joinNum})
+		
+	</insert>
+	
+	<select id="joinId" resultType="String">
+		select * from kuser where kuser.id=#{id}
+	</select>
+	
+</mapper>

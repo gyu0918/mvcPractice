@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="aa">
+	
+	<delete id="delete">
+		delete from 테이블명
+	</delete>
+	
+	<!-- 댓글 insert -->
+	<insert id="insertComment">
+		insert into postComment values(#{postNum},#{content},#{id},#{commentDate})
+	
+	</insert>
+	
+	<!-- 댓글 select -->
+	<select id="joinComment" resultType="www.silver.VO.CommentVO">
+		select * from postComment where postNum=#{postNum}
+	</select>
+	
+	<update id="updatejoinNum">
+		update post set postCount=${joinNum} where postNum=#{postNum}
+	</update>
+	
+	<select id="findJoinCount" resultType="int">
+		select postCount from post where postNum=#{postNum}
+	</select>
+	
+	<update id="updateLikeNum">
+		update post set postLike=${likeNum} where postNum=#{postNum}
+	</update>
+	
+	<select id="findLikeNum" resultType="int">
+		select postLike from post where postNum=#{postNum} 
+	</select>
+	
+	<select id="findPost" resultType="www.silver.VO.PostVO">
+		select  * from post where postNum=#{postNum}
+	</select>
+	
+	<select id="loadPost" resultType="www.silver.VO.PostVO">
+		select  * from post
+	</select>
+
+	<insert id="insertMem" >
+		insert into pokemonMem values(#{id}, #{pass})
+	</insert>
+	
+	<insert id="insertPost" >
+		insert into post values(#{id}, post_seq.nextval, #{postName}, #{postContent}, #{postCount}, #{postLike}, #{postDate})
+	</insert>
+
+
+	<select id="joinNum" resultType="int">
+		select  Max(num) from write
+	</select>
+
+	<select id="joinId" resultType="String">
+		select id from pokemonMem where pokemonMem.id=#{id}
+	</select>
+	
+	<select id="joinPass" resultType="String">
+		select pass from pokemonMem where pokemonMem.pass=#{pass}
+	</select>
+	
+</mapper>

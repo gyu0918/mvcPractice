@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="aa">
+	
+	<insert id="insertGoods" >
+		insert into goods values(#{goodsname}, #{goodsprice}, #{goodscnt}, #{goodscomment})
+	</insert>
+	
+	<select id="joinGoods" resultType="www.silver.VO.ResponseVO">
+		select * from goods where goodsname=#{goodsname}
+	</select>
+	
+</mapper>

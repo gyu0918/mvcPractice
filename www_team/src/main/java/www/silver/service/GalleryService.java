@@ -18,6 +18,17 @@ public class GalleryService {
 	
 	public void insertPost(PostVO postVO) {
 		 galleryRepository.insertPost(postVO);
+		 
+		 String[] t = postVO.getFilename();
+		 for (int i = 0; i < t.length; i++) {
+			 galleryRepository.insertAttach(t[i]);
+		 }
+		 
+		 
+	}
+	
+	public List<String> joinPhoto(int postNum){
+		return galleryRepository.joinPhoto(postNum);
 	}
 	
 	public List<PostVO> loadPost() {

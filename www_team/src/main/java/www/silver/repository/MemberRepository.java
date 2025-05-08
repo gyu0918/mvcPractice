@@ -25,4 +25,8 @@ public class MemberRepository {
 		
 	}
 	
+	public void attachFname(String filename) {
+		sqlsession.insert("aa.kuser_attach",filename);
+	}
+	
 }

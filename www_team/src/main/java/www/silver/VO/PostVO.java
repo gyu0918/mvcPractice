@@ -2,13 +2,22 @@ package www.silver.VO;
 
 public class PostVO {
 	private String id;
-	private int postNum;
+	private int postNum;    //primary key!!
 	private String postName;
 	private String postContent;
 	private int postCount;
 	private int postLike;
 	private String postDate;
+	private String[] filename;
 	
+	
+	
+	public String[] getFilename() {
+		return filename;
+	}
+	public void setFilename(String[] filename) {
+		this.filename = filename;
+	}
 	public String getId() {
 		return id;
 	}

@@ -8,6 +8,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from 테이블명
 	</delete>
 	
+	<select id="joinPhoto" parameterType="int" resultType="string">
+		select fileName from kuser_attach where no=#{postNum}
+	</select>
+	
+	<insert id="insertAttach">
+		insert into kuser_attach values((select max(postNum) from post), #{filename}, default)
+	</insert>
+	
+	<!-- file -->
+	<insert id="kuser_attach" parameterType="String">
+		insert into kuser_attach values((select max(no) from kuser), #(filename), default)
+	</insert>
+	
+	<!-- 다운로드 -->
+	<select id="getAttach" resultType="String" parameterType="String">
+		select filename from kuser_attach where no = #{no}
+	</select>
+	
+	
 	<!-- 댓글 insert -->
 	<insert id="insertComment">
 		insert into postComment values(#{postNum},#{content},#{id},#{commentDate})
@@ -44,11 +63,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<insert id="insertMem" >
-		insert into pokemonMem values(#{id}, #{pass})
+		insert into pokemonMem values(#{id}, #{pass}, #{filename[0]})
 	</insert>
 	
 	<insert id="insertPost" >
-		insert into post values(#{id}, post_seq.nextval, #{postName}, #{postContent}, #{postCount}, #{postLike}, #{postDate})
+		insert into post values(#{id}, post_seq.nextval, #{postName}, #{postContent}, #{postCount}, #{postLike}, default)
 	</insert>
 
 

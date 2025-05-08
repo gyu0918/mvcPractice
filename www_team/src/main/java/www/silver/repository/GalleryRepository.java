@@ -18,6 +18,15 @@ public class GalleryRepository {
 	private  SqlSession sqlsession;
 	
 	
+	public List<String> joinPhoto(int postNum){
+		return sqlsession.selectList("aa.joinPhoto",postNum);
+	}
+	
+	public void insertAttach(String filename) {
+		sqlsession.insert("aa.insertAttach", filename);
+	}
+	
+	
 	public void insertPost(PostVO postVO) {
 		sqlsession.insert("aa.insertPost", postVO);
 	}

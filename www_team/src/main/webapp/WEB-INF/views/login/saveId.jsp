@@ -15,6 +15,14 @@
 <body>
 	ID <input type="text" id="id"> <input type="button" value="중복체크" id="idCheck" onclick="idCheck()"> <br>
 	pass<input type="text" id="pass"><br>
+	<tr>
+		<td>첨부파일</td>
+		<td><input type="file" id="files" name="file"></td>
+	</tr>
+	<tr>
+		<td>첨부파일</td>
+		<td><input type="file" id="files" name="file"></td>
+	</tr>
 	<input type="button" id="registration" value="등록" onclick="regi()">
 </body>
 </html>
@@ -52,22 +60,36 @@
 	function regi(){
 		//db로 보내고 chek 값이 ture 일떄만 넘어가도록 하기 
 		
+		
+		
+		
 		if (check){
 			let uid = document.getElementById("id").value;
 			let pass = document.getElementById("pass").value;
 			
-			axios.post('save',{
-				id : uid,
-				pass : pass
+			let files = document.getElementById("files").files;
+
+			let formData = new FormData();
+			formData.append("id", uid);
+			formData.append("pass", pass);
+			// 여러 파일을 같은 key("file")로 추가
+			for (let i = 0; i < files.length; i++) {
+				formData.append("file", files[i]);
+			}
+			
+			axios.post('save', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+			})
+			.then(function(response) {
+				console.log("dddddd");
+				window.location.href = "${pageContext.request.contextPath}/";
 			})
 			.catch(function(error){
 				console.error(error);
 			});
 			
-			
-			
-			
-			window.location.href = "${pageContext.request.contextPath}/";
 		}else{
 			alert("중복체크를 하세요!!");
 		}

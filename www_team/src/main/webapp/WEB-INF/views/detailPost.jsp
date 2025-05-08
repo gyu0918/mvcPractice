@@ -26,6 +26,8 @@
 	<input type="text" id="commentContent">
 	<input type="button" id="comment" onclick="saveComment()" value="댓글쓰기"><br>
 	<input type="button" id="rePost" onclick="reButton()" value="게시글돌아가기">
+	<hr>
+	<section></section>
 	
 </body>
 </html>
@@ -36,6 +38,36 @@
 	
 	upJoinCount();
 	joinComment();
+	joinPhoto();
+	
+	
+	
+	
+	//사진 로드 하기 
+	function joinPhoto(){
+		
+	
+		
+		axios.get('joinPhoto',{
+			params: {postNum : postNum}
+		})
+		.then(function(response){
+			const datas = response.data;
+			let result = "<h3>사진<h3><br>";
+				
+			datas.forEach(data => {
+				 result += '<a href="http://localhost:7070/hom/download?filename=' + data 
+						 + '"><img src="http://localhost:7070/hom/download?filename=' + data + '"></a>';
+			});
+			document.querySelector("section").innerHTML = result;
+			
+		})
+		.catch(function(error){
+			console.error(error);
+		});
+		
+	}
+	
 	
 	//페이지 시작시 이전댓글 불러오기
 	function joinComment(){

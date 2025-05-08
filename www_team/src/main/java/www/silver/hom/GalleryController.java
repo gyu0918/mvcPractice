@@ -1,24 +1,38 @@
 package www.silver.hom;
 
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;    
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import www.silver.VO.CommentVO;
 import www.silver.VO.MemberVO;
 import www.silver.VO.PostVO;
+import www.silver.hom.util.FileDataUtil;
 import www.silver.service.GalleryService;
 import www.silver.service.MemberService;
 
 @Controller
 public class GalleryController {
+	
+	@Inject
+	private FileDataUtil filedatautil;
+	
+	@Resource(name="uploadPath")
+	private String uploadPath;
 	
 	@Inject
 	private GalleryService galleryService;
@@ -28,13 +42,29 @@ public class GalleryController {
 		return "/writePage";
 	}
 	
+	
+	@ResponseBody
+	@GetMapping("/joinPhoto")
+	public List<String> joinPhoto(@RequestParam("postNum") int postNum){
+		
+		
+		List<String> photo = galleryService.joinPhoto(postNum); 
+		
+		for (String photos : photo) {
+			System.out.println(photos);
+		}
+		
+		
+		return photo;
+	}
+	
 	@ResponseBody
 	@PostMapping("/savePost")
-	public String savePost(@RequestBody PostVO postVO) {
-		
-		
+	public String savePost(@ModelAttribute PostVO postVO, @RequestParam("file") MultipartFile[] file ) throws IOException {
+		String[] filename = filedatautil.fileUpload(file);
+//		System.out.println(postVO.getPostContent());
+		postVO.setFilename(filename);
 		galleryService.insertPost(postVO);
-		
 		return "success";
 	}
 	
@@ -60,6 +90,9 @@ public class GalleryController {
 		request.setAttribute("postLike", postVO.getPostLike());
 		
 		
+		//첨부파일 가져온다.
+		
+		
 		return "/detailPost"; 
 	}
 	
@@ -78,12 +111,7 @@ public class GalleryController {
 	@GetMapping("/joinComment")
 	public List<CommentVO> joinComment(@RequestParam("postNum") int postNum){
 		List<CommentVO> temp =  galleryService.joinComment(postNum);
-//		for (CommentVO comment : temp) {
-//		    System.out.println("작성자: " + comment.getId());
-//		    System.out.println("내용: " + comment.getContent());
-//		    System.out.println("작성일: " + comment.getCommentDate());
-//		    System.out.println("------------------------");
-//		}
+
 		return temp;
 	}
 	
